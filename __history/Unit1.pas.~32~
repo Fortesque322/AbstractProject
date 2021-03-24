@@ -10,12 +10,13 @@ type
   TModel = record
     FPrice : integer;
     FModel : string;
-   end;
+  end;
 
   TMarket = class abstract
   private
+    procedure assembly;
   protected
-    RecModel :TModel;
+    Model :TModel;
     procedure AddMotherboard(Price: integer; Model : string); virtual; abstract;
     procedure AddCPU(Price: integer; Model : string); virtual; abstract;
     procedure AddRAM(Price: integer; Model : string); virtual; abstract;
@@ -25,7 +26,7 @@ type
  //   procedure ReadFromFile(APath: string);       //ДЗ
  //   procedure WriteToFile(APath: string);       //ДЗ
   public
-    procedure assembly;
+    function GetResult(Price, Sale:real):real; virtual; abstract;
     constructor Create();
     Destructor Destroy();
   end;
@@ -39,6 +40,8 @@ type
       procedure AddPowerSupply(Price: integer; Model : string); override;
       procedure AddHdd(Price: integer; Model : string); override;
       procedure AddGraphicCard(Price: integer; Model : string);
+    public
+      function GetResult(Price, Sale:real):real; override;
   end;
 
   TZalman = class (TMarket)
@@ -50,6 +53,8 @@ type
       procedure AddPowerSupply(Price: integer; Model : string); override;
       procedure AddHdd(Price: integer; Model : string); override;
       procedure AddSsd(Price: integer; Model : string);
+      public
+      function GetResult(Price, Sale:real):real;  override;
   end;
 
   THp = class (TMarket)
@@ -63,6 +68,8 @@ type
       procedure AddSsd(Price: integer; Model : string);
       procedure AddGraphicCard(Price: integer; Model : string);
       procedure AddMonitor(Price: integer; Model : string);
+    public
+      function GetResult(Price, Sale:real):real; override;
   end;
 
 implementation
@@ -71,14 +78,10 @@ implementation
 { TMarket }
 
 procedure TMarket.assembly;
-  var
-    x: integer;
-    y: string;
   begin
-    writeln('Сборка: ');
-    AddMotherboard(x,y);
-    Writeln('Модель: ' + RecModel.FModel);
-    Writeln('Цена:' + IntToStr(RecModel.FPrice));
+
+//    writeln('Сборка: ');
+    Writeln('No:' + Model.FModel);
 //    AddMotherboard();
 //    AddCPU;
 //    AddRAM;
@@ -120,10 +123,9 @@ begin
 end;
 
 procedure TAsus.AddMotherboard(Price: integer; Model: string);
-  begin
-  RecModel.FPrice := 1000;
-  RecModel.FModel := 'Asus H81 MK';
-  end;
+begin
+
+end;
 
 procedure TAsus.AddPowerSupply(Price: integer; Model: string);
 begin
@@ -131,6 +133,11 @@ begin
 end;
 
 procedure TAsus.AddRAM(Price: integer; Model: string);
+begin
+
+end;
+
+function TAsus.GetResult(Price, Sale: real): real;
 begin
 
 end;
@@ -168,6 +175,11 @@ begin
 end;
 
 procedure TZalman.AddSsd(Price: integer; Model: string);
+begin
+
+end;
+
+function TZalman.GetResult(Price, Sale: real): real;
 begin
 
 end;
@@ -215,6 +227,11 @@ begin
 end;
 
 procedure THp.AddSsd(Price: integer; Model: string);
+begin
+
+end;
+
+function THp.GetResult(Price, Sale: real): real;
 begin
 
 end;

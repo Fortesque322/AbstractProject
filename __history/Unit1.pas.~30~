@@ -10,12 +10,13 @@ type
   TModel = record
     FPrice : integer;
     FModel : string;
-   end;
+  end;
 
   TMarket = class abstract
   private
+    procedure assembly;
   protected
-    RecModel :TModel;
+    Model :TModel;
     procedure AddMotherboard(Price: integer; Model : string); virtual; abstract;
     procedure AddCPU(Price: integer; Model : string); virtual; abstract;
     procedure AddRAM(Price: integer; Model : string); virtual; abstract;
@@ -25,7 +26,7 @@ type
  //   procedure ReadFromFile(APath: string);       //ДЗ
  //   procedure WriteToFile(APath: string);       //ДЗ
   public
-    procedure assembly;
+    function GetResult(Price, Sale:real):real; virtual; abstract;
     constructor Create();
     Destructor Destroy();
   end;
@@ -39,6 +40,7 @@ type
       procedure AddPowerSupply(Price: integer; Model : string); override;
       procedure AddHdd(Price: integer; Model : string); override;
       procedure AddGraphicCard(Price: integer; Model : string);
+      function GetResult(Price, Sale:real):real; override;
   end;
 
   TZalman = class (TMarket)
@@ -50,6 +52,8 @@ type
       procedure AddPowerSupply(Price: integer; Model : string); override;
       procedure AddHdd(Price: integer; Model : string); override;
       procedure AddSsd(Price: integer; Model : string);
+      public
+      function GetResult(Price, Sale:real):real;  override;
   end;
 
   THp = class (TMarket)
@@ -63,6 +67,7 @@ type
       procedure AddSsd(Price: integer; Model : string);
       procedure AddGraphicCard(Price: integer; Model : string);
       procedure AddMonitor(Price: integer; Model : string);
+      function GetResult(Price, Sale:real):real; override;
   end;
 
 implementation
@@ -75,10 +80,9 @@ procedure TMarket.assembly;
     x: integer;
     y: string;
   begin
-    writeln('Сборка: ');
-    AddMotherboard(x,y);
-    Writeln('Модель: ' + RecModel.FModel);
-    Writeln('Цена:' + IntToStr(RecModel.FPrice));
+
+//    writeln('Сборка: ');
+    Writeln('No:' + Model.FModel);
 //    AddMotherboard();
 //    AddCPU;
 //    AddRAM;
@@ -97,124 +101,164 @@ begin
 
 end;
 
+
+
 { TAsus }
 
-procedure TAsus.AddBody(Price: integer; Model: string);
-begin
+procedure TAsus.AddBody;
 
-end;
-
-procedure TAsus.AddCPU(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TAsus.AddGraphicCard(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TAsus.AddHdd(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TAsus.AddMotherboard(Price: integer; Model: string);
   begin
-  RecModel.FPrice := 1000;
-  RecModel.FModel := 'Asus H81 MK';
+
   end;
 
-procedure TAsus.AddPowerSupply(Price: integer; Model: string);
-begin
+procedure TAsus.AddCPU;
+  begin
+    Price := 9000;
+    Model := 'i5 - 3330';
+  end;
 
-end;
+procedure TAsus.AddGraphicCard;
+  begin
+    Price := 15000;
+    Model := 'GTX 1050';
+  end;
 
-procedure TAsus.AddRAM(Price: integer; Model: string);
+procedure TAsus.AddHdd;
+  begin
+    Price := 3000;
+    Model := 'Segate Baracuda';
+  end;
+
+procedure TAsus.AddMotherboard(Price:integer;Model: string);
+
+  begin
+
+    Price := 0;
+    Model := 'Asus H81';
+  end;
+
+procedure TAsus.AddPowerSupply;
+  begin
+    Price := 3000;
+    Model := 'Power Man 550W';
+  end;
+
+procedure TAsus.AddRAM;
+  begin
+    Price  := 5000;
+    Model := 'Corsair 8GB';
+  end;
+
+function TAsus.GetResult(Price, Sale: real): real;
 begin
 
 end;
 
 { TZalman }
 
-procedure TZalman.AddBody(Price: integer; Model: string);
+procedure TZalman.AddBody;
+  begin
+    Price := 4450;
+    Model := 'IS Mechanics';
+  end;
+
+procedure TZalman.AddCPU;
+  begin
+    Price := 11000;
+    Model := 'Ryzen 5 - 2700';
+  end;
+
+procedure TZalman.AddHdd;
+  begin
+    Price := 4512;
+    Model := 'WD Blue';
+  end;
+
+procedure TZalman.AddMotherboard;
+  begin
+
+  end;
+
+procedure TZalman.AddPowerSupply;
+  begin
+    Price := 6521;
+    Model := 'Zalman 650w';
+  end;
+
+procedure TZalman.AddRAM;
+  begin
+    Price := 7000;
+    Model := 'Crucial';
+  end;
+
+procedure TZalman.AddSsd;
+  begin
+    Price := 5550;
+    Model := 'Samsung EVO';
+  end;
+
+function TZalman.GetResult(Price, Sale: real): real;
 begin
-
-end;
-
-procedure TZalman.AddCPU(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TZalman.AddHdd(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TZalman.AddMotherboard(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TZalman.AddPowerSupply(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TZalman.AddRAM(Price: integer; Model: string);
-begin
-
-end;
-
-procedure TZalman.AddSsd(Price: integer; Model: string);
-begin
-
+  Result := Price * Sale;
 end;
 
 { THp }
 
-procedure THp.AddBody(Price: integer; Model: string);
-begin
+procedure THp.AddBody;
+  begin
+    Price := 7070;
+    Model := 'HP ProDesk 600';
+  end;
 
-end;
+procedure THp.AddCPU;
+  begin
+    Price := 9999;
+    Model := 'i7-10000';
+  end;
 
-procedure THp.AddCPU(Price: integer; Model: string);
-begin
+procedure THp.AddGraphicCard;
+  begin
+    Price := 22000;
+    Model := 'GTX Titan Z';
+  end;
 
-end;
+procedure THp.AddHdd;
+  begin
+    Price := 6540;
+    Model := 'FireCuda';
+  end;
 
-procedure THp.AddGraphicCard(Price: integer; Model: string);
-begin
+procedure THp.AddMonitor;
+  begin
+    Price := 14000;
+    Model := 'ViewSonic 27*';
+  end;
 
-end;
+procedure THp.AddMotherboard;
+  begin
+    Price := 8900;
+    Model := 'Pegatron 2bhf';
+  end;
 
-procedure THp.AddHdd(Price: integer; Model: string);
-begin
+procedure THp.AddPowerSupply;
+  begin
+    Price := 7777;
+    Model := 'HP Gold 700w';
+  end;
 
-end;
+procedure THp.AddRAM;
+  begin
+    Price := 8000;
+    Model := 'Patriot 16GB';
+  end;
 
-procedure THp.AddMonitor(Price: integer; Model: string);
-begin
+procedure THp.AddSsd;
+  begin
+    Price := 30000;
+    Model := 'Intel Inside';
+  end;
 
-end;
-
-procedure THp.AddMotherboard(Price: integer; Model: string);
-begin
-
-end;
-
-procedure THp.AddPowerSupply(Price: integer; Model: string);
-begin
-
-end;
-
-procedure THp.AddRAM(Price: integer; Model: string);
-begin
-
-end;
-
-procedure THp.AddSsd(Price: integer; Model: string);
+function THp.GetResult(Price, Sale: real): real;
 begin
 
 end;
