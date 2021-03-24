@@ -55,10 +55,6 @@ uses
       procedure AddMonitor();
   end;
 
-  TAssembler = class (TMarket)
-
-  end;
-
 implementation
 
 { TMarket }

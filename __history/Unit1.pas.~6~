@@ -1,11 +1,7 @@
 unit Unit1;
 
 interface
-
-uses
-  System.SysUtils;
-
-  type
+type
   TMarket = class abstract
   protected
     FPrice : integer;
@@ -33,30 +29,13 @@ uses
 
   TZalman = class (TMarket)
     protected
-      procedure AddMotherboard();override;
-      procedure AddCPU(); override;
-      procedure AddRAM(); override;
-      procedure AddBody(); override;
-      procedure AddPowerSupply(); override;
-      procedure AddHdd(); override;
-      procedure AddSsd();
-  end;
-
-  THp = class (TMarket)
-    protected
-      procedure AddMotherboard();override;
-      procedure AddCPU(); override;
-      procedure AddRAM(); override;
-      procedure AddBody(); override;
-      procedure AddPowerSupply(); override;
-      procedure AddHdd(); override;
-      procedure AddSsd();
-      procedure AddGraphicCard();
-      procedure AddMonitor();
-  end;
-
-  TAssembler = class (TMarket)
-
+     procedure AddMotherboard();override;
+     procedure AddCPU(); override;
+     procedure AddRAM(); override;
+     procedure AddBody(); override;
+     procedure AddPowerSupply(); override;
+     procedure AddHdd(); override;
+     procedure AddSsd();
   end;
 
 implementation
@@ -72,7 +51,7 @@ procedure TMarket.assembly;
     AddRAM;
     AddPowerSupply;
     AddHdd;
-    Writeln('Итого: ' + IntToStr(FPrice));
+    write(FPrice);
   end;
 
 function TMarket.count(price:integer): integer;
@@ -146,14 +125,14 @@ procedure TZalman.AddHdd;
 
 procedure TZalman.AddMotherboard;
   begin
-    writeln('Материнская плата: ');
-    count(7000);
+  writeln('Материнская плата: ');
+  count(7000);
   end;
 
 procedure TZalman.AddPowerSupply;
   begin
-    writeln('Блок питания: ');
-    count(4555);
+  writeln('Блок питания: ');
+  count(4555);
   end;
 
 procedure TZalman.AddRAM;
@@ -166,62 +145,6 @@ procedure TZalman.AddSsd;
   begin
     writeln('ССД: ');
     count(5500);
-  end;
-
-{ THp }
-
-procedure THp.AddBody;
-  begin
-    writeln('Корпус');
-    count(5142)
-  end;
-
-procedure THp.AddCPU;
-  begin
-    writeln('Процессор: ');
-    count(12310);
-  end;
-
-procedure THp.AddGraphicCard;
-  begin
-    writeln('Видеокарта');
-    count(22990);
-  end;
-
-procedure THp.AddHdd;
-  begin
-    writeln('Жесткий диск: ');
-    count(5505)
-  end;
-
-procedure THp.AddMonitor;
-  begin
-    writeln('Монитор: ');
-    count(14999);
-  end;
-
-procedure THp.AddMotherboard;
-  begin
-    writeln('Материнская плата: ');
-    count(8900);
-  end;
-
-procedure THp.AddPowerSupply;
-  begin
-    writeln('Блок питания: ');
-    count(6915);
-  end;
-
-procedure THp.AddRAM;
-  begin
-    writeln('Оперативная память: ');
-    count(3443);
-  end;
-
-procedure THp.AddSsd;
-  begin
-    writeln('ССД: ');
-    count(5190);
   end;
 
 end.

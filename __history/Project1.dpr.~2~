@@ -17,10 +17,7 @@ begin
     assm.assembly;
     assm:= TZalman.Create;
     assm.assembly;
-    assm:= THp.Create;
-    assm.assembly;
     readln;
-
   except
     on E: Exception do
       Writeln(E.ClassName, ': ', E.Message);

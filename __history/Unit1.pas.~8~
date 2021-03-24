@@ -55,10 +55,6 @@ uses
       procedure AddMonitor();
   end;
 
-  TAssembler = class (TMarket)
-
-  end;
-
 implementation
 
 { TMarket }
@@ -73,6 +69,7 @@ procedure TMarket.assembly;
     AddPowerSupply;
     AddHdd;
     Writeln('Итого: ' + IntToStr(FPrice));
+    writeln(FPrice);
   end;
 
 function TMarket.count(price:integer): integer;
