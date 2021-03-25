@@ -14,14 +14,12 @@ var
 begin
   try
     assm:= TAsus.Create;
-
     Writeln('Тут просто строка:');
- //   Writeln(assm.GetResult(10,10):5:2);
     assm.assembly;
-//    assm:= TZalman.Create;
-//    assm.assembly;
-//    assm:= THp.Create;
-//    assm.assembly;
+    assm:= TZalman.Create;
+    assm.assembly;
+    assm:= THp.Create;
+    assm.assembly;
     readln;
 
   except

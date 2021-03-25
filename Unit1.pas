@@ -10,6 +10,7 @@ type
   TModel = record
     FPrice : integer;
     FModel : string;
+    FTotal :integer;
    end;
 
   TMarket = class abstract
@@ -77,14 +78,21 @@ procedure TMarket.assembly;
   begin
     writeln('Сборка: ');
     AddMotherboard(x,y);
-    Writeln('Модель: ' + RecModel.FModel);
+    Writeln('Материнская плата: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    AddMotherboard();
-//    AddCPU;
-//    AddRAM;
-//    AddPowerSupply;
-//    AddHdd;
-  //  Writeln('Итого: ' + IntToStr(FPrice));
+    AddCPU(x,y);
+    Writeln('Процессор: ' + RecModel.FModel);
+    Writeln('Цена:' + IntToStr(RecModel.FPrice));
+    AddRAM(x,y);
+    Writeln('Оперативная память: ' + RecModel.FModel);
+    Writeln('Цена:' + IntToStr(RecModel.FPrice));
+    AddPowerSupply(x,y);
+    Writeln('Блок Питания: ' + RecModel.FModel);
+    Writeln('Цена:' + IntToStr(RecModel.FPrice));
+    AddHdd(x,y);
+    Writeln('Жесткий диск: ' + RecModel.FModel);
+    Writeln('Цена:' + IntToStr(RecModel.FPrice));
+    Writeln('Итого: ' + IntToStr(RecModel.FTotal));
   end;
 
 constructor TMarket.Create;
@@ -101,22 +109,29 @@ end;
 
 procedure TAsus.AddBody(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 3000;
+  RecModel.FModel := 'InWin';
+  RecModel.FTotal := RecModel.FTotal + RecModel.FPrice;
 end;
 
 procedure TAsus.AddCPU(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 9000;
+  RecModel.FModel := 'i5 - 3330';
+  RecModel.FTotal := RecModel.FTotal + RecModel.FPrice;
 end;
 
 procedure TAsus.AddGraphicCard(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 15000;
+  RecModel.FModel := 'GTX 1050';
+  RecModel.FTotal := RecModel.FTotal + RecModel.FPrice;
 end;
 
 procedure TAsus.AddHdd(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 3000;
+  RecModel.FModel := 'WD Blue ';
 end;
 
 procedure TAsus.AddMotherboard(Price: integer; Model: string);
@@ -127,96 +142,114 @@ procedure TAsus.AddMotherboard(Price: integer; Model: string);
 
 procedure TAsus.AddPowerSupply(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 3500;
+  RecModel.FModel := 'PowerMan 500w';
 end;
 
 procedure TAsus.AddRAM(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 6666;
+  RecModel.FModel := 'Corsair 8GB';
 end;
 
 { TZalman }
 
 procedure TZalman.AddBody(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 3500;
+  RecModel.FModel := 'Zalman X55';
 end;
 
 procedure TZalman.AddCPU(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 9999;
+  RecModel.FModel := 'Ryzen 5 - 2700';
 end;
 
 procedure TZalman.AddHdd(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 4500;
+  RecModel.FModel := 'Segate Baracuda';
 end;
 
 procedure TZalman.AddMotherboard(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 6890;
+  RecModel.FModel := 'Gygabite Ax 570';
 end;
 
 procedure TZalman.AddPowerSupply(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 4400;
+  RecModel.FModel := 'CoolerMaste vx 650w';
 end;
 
 procedure TZalman.AddRAM(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 5500;
+  RecModel.FModel := 'Crucial 8GB';
 end;
 
 procedure TZalman.AddSsd(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 5505;
+  RecModel.FModel := 'Samsung EVO';
 end;
 
 { THp }
 
 procedure THp.AddBody(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 5400;
+  RecModel.FModel := 'HP ProDesk 600G4';
 end;
 
 procedure THp.AddCPU(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 12000;
+  RecModel.FModel := 'Ryzen 7 - 3900';
 end;
 
 procedure THp.AddGraphicCard(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 23000;
+  RecModel.FModel := 'RTX 2080';
 end;
 
 procedure THp.AddHdd(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 5005;
+  RecModel.FModel := 'FireCuda';
 end;
 
 procedure THp.AddMonitor(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 10000;
+  RecModel.FModel := 'VievSonic Va27';
 end;
 
 procedure THp.AddMotherboard(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 7070;
+  RecModel.FModel := 'Pegatron H280';
 end;
 
 procedure THp.AddPowerSupply(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 8080;
+  RecModel.FModel := 'HP 1000w';
 end;
 
 procedure THp.AddRAM(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 6587;
+  RecModel.FModel := 'Samsung 16GB';
 end;
 
 procedure THp.AddSsd(Price: integer; Model: string);
 begin
-
+  RecModel.FPrice := 25000;
+  RecModel.FModel := 'Intel Inside';
 end;
 
 end.
