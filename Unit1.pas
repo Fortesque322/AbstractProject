@@ -24,7 +24,7 @@ type
     procedure AddPowerSupply(Price: integer; Model : string); virtual; abstract;
     procedure AddHdd(Price: integer; Model : string); virtual; abstract;
  //   procedure ReadFromFile(APath: string);       //ДЗ
- //   procedure WriteToFile(APath: string);       //ДЗ
+    procedure WriteToFile(APath: string);       //ДЗ
   public
     procedure assembly;
     constructor Create();
@@ -92,6 +92,7 @@ procedure TMarket.assembly;
     AddHdd(x,y);
     Writeln('Жесткий диск: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
+    Writeln('-------------------------------------');
     Writeln('Итого: ' + IntToStr(RecModel.FTotal));
   end;
 
@@ -105,27 +106,32 @@ begin
 
 end;
 
+procedure TMarket.WriteToFile(APath: string);
+
+
+begin
+
+end;
+
 { TAsus }
 
 procedure TAsus.AddBody(Price: integer; Model: string);
 begin
   RecModel.FPrice := 3000;
   RecModel.FModel := 'InWin';
-  RecModel.FTotal := RecModel.FTotal + RecModel.FPrice;
+  RecModel.FTotal := RecModel.FTotal + Price;
 end;
 
 procedure TAsus.AddCPU(Price: integer; Model: string);
 begin
   RecModel.FPrice := 9000;
   RecModel.FModel := 'i5 - 3330';
-  RecModel.FTotal := RecModel.FTotal + RecModel.FPrice;
 end;
 
 procedure TAsus.AddGraphicCard(Price: integer; Model: string);
 begin
   RecModel.FPrice := 15000;
   RecModel.FModel := 'GTX 1050';
-  RecModel.FTotal := RecModel.FTotal + RecModel.FPrice;
 end;
 
 procedure TAsus.AddHdd(Price: integer; Model: string);
@@ -135,10 +141,10 @@ begin
 end;
 
 procedure TAsus.AddMotherboard(Price: integer; Model: string);
-  begin
+begin
   RecModel.FPrice := 1000;
   RecModel.FModel := 'Asus H81 MK';
-  end;
+end;
 
 procedure TAsus.AddPowerSupply(Price: integer; Model: string);
 begin
@@ -150,6 +156,7 @@ procedure TAsus.AddRAM(Price: integer; Model: string);
 begin
   RecModel.FPrice := 6666;
   RecModel.FModel := 'Corsair 8GB';
+  RecModel.FTotal := RecModel.FTotal + Price;
 end;
 
 { TZalman }
