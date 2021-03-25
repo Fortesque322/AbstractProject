@@ -24,8 +24,9 @@ type
     procedure AddPowerSupply(Price: integer; Model : string); virtual; abstract;
     procedure AddHdd(Price: integer; Model : string); virtual; abstract;
  //   procedure ReadFromFile(APath: string);       //ÄÇ
-    procedure WriteToFile(APath: string);       //ÄÇ
+           //ÄÇ
   public
+    procedure WriteToFile();
     procedure assembly;
     constructor Create();
     Destructor Destroy();
@@ -106,10 +107,14 @@ begin
 
 end;
 
-procedure TMarket.WriteToFile(APath: string);
-
-
+procedure TMarket.WriteToFile();
+var
+  RecModel : TextFile;
 begin
+  AssignFile(RecModel,'D:\123.txt');
+  if Not FileExists('D:\123.txt') then
+    Rewrite(RecModel)
+  else
 
 end;
 

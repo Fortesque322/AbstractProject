@@ -13,9 +13,8 @@ var
 
 begin
   try
-    assm:= TZalman.Create;
-    Writeln(assm.GetResult(10,10));
- //   assm.assembly;
+    assm:= TAsus.Create;
+    assm.assembly;
 //    assm:= TZalman.Create;
 //    assm.assembly;
 //    assm:= THp.Create;

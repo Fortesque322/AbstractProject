@@ -14,8 +14,8 @@ var
 begin
   try
     assm:= TAsus.Create;
+    assm.assembly;
 
- //   assm.assembly;
 //    assm:= TZalman.Create;
 //    assm.assembly;
 //    assm:= THp.Create;
