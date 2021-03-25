@@ -14,10 +14,8 @@ var
 begin
   try
     assm:= TAsus.Create;
-
-    Writeln('');
- //   Writeln(assm.GetResult(10,10):5:2);
- //   assm.assembly;
+    assm.assembly;
+    assm.WriteToFile;
 //    assm:= TZalman.Create;
 //    assm.assembly;
 //    assm:= THp.Create;

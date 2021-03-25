@@ -12,12 +12,12 @@ var
   assm : TMarket;
 
 begin
+
   try
     assm:= TAsus.Create;
     assm.assembly;
-    assm.WriteToFile;
-//    assm:= TZalman.Create;
-//    assm.assembly;
+    assm:= TZalman.Create;
+    assm.assembly;
 //    assm:= THp.Create;
 //    assm.assembly;
     readln;

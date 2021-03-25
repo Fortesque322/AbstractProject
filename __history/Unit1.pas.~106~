@@ -6,26 +6,27 @@ uses
   System.SysUtils;
 
 type
-
   TModel = record
     FPrice : integer;
     FModel : string;
     FTotal :integer;
-   end;
+  end;
 
   TMarket = class abstract
   private
-  protected
     RecModel :TModel;
+    var
+    TTTotal :integer;
+  protected
     procedure AddMotherboard(Price: integer; Model : string); virtual; abstract;
     procedure AddCPU(Price: integer; Model : string); virtual; abstract;
     procedure AddRAM(Price: integer; Model : string); virtual; abstract;
     procedure AddBody(Price: integer; Model : string); virtual; abstract;
     procedure AddPowerSupply(Price: integer; Model : string); virtual; abstract;
     procedure AddHdd(Price: integer; Model : string); virtual; abstract;
- //   procedure ReadFromFile(APath: string);       //ДЗ
-    procedure WriteToFile(APath: string);       //ДЗ
   public
+ // procedure ReadFromFile(APath: string);
+    procedure WriteToFile();
     procedure assembly;
     constructor Create();
     Destructor Destroy();
@@ -44,7 +45,7 @@ type
 
   TZalman = class (TMarket)
     private
-      procedure AddMotherboard(Price: integer; Model : string); override; //   функции
+      procedure AddMotherboard(Price: integer; Model : string); override;
       procedure AddCPU(Price: integer; Model : string); override;
       procedure AddRAM(Price: integer; Model : string); override;
       procedure AddBody(Price: integer; Model : string); override;
@@ -80,20 +81,26 @@ procedure TMarket.assembly;
     AddMotherboard(x,y);
     Writeln('Материнская плата: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
+//    WriteToFile;
     AddCPU(x,y);
     Writeln('Процессор: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
+//    WriteToFile;
     AddRAM(x,y);
     Writeln('Оперативная память: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
+//    WriteToFile;
     AddPowerSupply(x,y);
     Writeln('Блок Питания: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
+//    WriteToFile;
     AddHdd(x,y);
     Writeln('Жесткий диск: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
+//    WriteToFile;
     Writeln('-------------------------------------');
-    Writeln('Итого: ' + IntToStr(RecModel.FTotal));
+    Writeln('Итого: ' + IntToStr(TTTotal));
+    Writeln('-------------------------------------');
   end;
 
 constructor TMarket.Create;
@@ -106,11 +113,20 @@ begin
 
 end;
 
-procedure TMarket.WriteToFile(APath: string);
-
-
+procedure TMarket.WriteToFile();
+var
+  TextRecord : TextFile;
 begin
-
+  AssignFile(TextRecord,'C:\distr\TextFile.txt');
+  if Not FileExists('C:\distr\TextFile.txt') then
+    begin
+    Rewrite(TextRecord);
+    end;
+  Append(TextRecord);
+  Writeln(TextRecord,RecModel.FModel);
+  Writeln(TextRecord,RecModel.FPrice);
+//  Writeln(TextRecord,RecModel.FTotal);
+  Close(TextRecord);
 end;
 
 { TAsus }
@@ -119,7 +135,7 @@ procedure TAsus.AddBody(Price: integer; Model: string);
 begin
   RecModel.FPrice := 3000;
   RecModel.FModel := 'InWin';
-  RecModel.FTotal := RecModel.FTotal + Price;
+  TTTotal := RecModel.FPrice + TTTotal;
 end;
 
 procedure TAsus.AddCPU(Price: integer; Model: string);
