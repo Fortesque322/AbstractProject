@@ -18,6 +18,7 @@ begin
     assm.assembly;
     assm:= TZalman.Create;
     assm.assembly;
+    assm.ReadFromFile;
 //    assm:= THp.Create;
 //    assm.assembly;
     readln;

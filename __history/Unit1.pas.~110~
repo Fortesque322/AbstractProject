@@ -10,7 +10,7 @@ type
     FPrice : integer;
     FModel : string;
     FTotal :integer;
-   end;
+  end;
 
   TMarket = class abstract
   private
@@ -22,9 +22,10 @@ type
     procedure AddBody(Price: integer; Model : string); virtual; abstract;
     procedure AddPowerSupply(Price: integer; Model : string); virtual; abstract;
     procedure AddHdd(Price: integer; Model : string); virtual; abstract;
+    procedure WriteToFile();
+    procedure WriteToNoType();
   public
  // procedure ReadFromFile(APath: string);
-    procedure WriteToFile();
     procedure assembly;
     constructor Create();
     Destructor Destroy();
@@ -125,6 +126,20 @@ begin
   Writeln(TextRecord,RecModel.FPrice);
 //  Writeln(TextRecord,RecModel.FTotal);
   Close(TextRecord);
+end;
+
+procedure TMarket.WriteToNoType;
+var
+  NoType : File;
+begin
+  AssignFile(NoType,'C:\distr\NoTypeFile');
+  if Not FileExists('C:\distr\NoTypeFile') then
+    begin
+    Rewrite(NoType);
+    end;
+  Reset(NoType);
+  BlockWrite(NoType,'456789', 2);
+  Close(NoType);
 end;
 
 { TAsus }

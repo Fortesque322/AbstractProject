@@ -10,7 +10,7 @@ type
     FPrice : integer;
     FModel : string;
     FTotal :integer;
-   end;
+  end;
 
   TMarket = class abstract
   private
@@ -22,9 +22,9 @@ type
     procedure AddBody(Price: integer; Model : string); virtual; abstract;
     procedure AddPowerSupply(Price: integer; Model : string); virtual; abstract;
     procedure AddHdd(Price: integer; Model : string); virtual; abstract;
+    procedure WriteToFile();
   public
  // procedure ReadFromFile(APath: string);
-    procedure WriteToFile();
     procedure assembly;
     constructor Create();
     Destructor Destroy();
@@ -79,23 +79,23 @@ procedure TMarket.assembly;
     AddMotherboard(x,y);
     Writeln('Материнская плата: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     AddCPU(x,y);
     Writeln('Процессор: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     AddRAM(x,y);
     Writeln('Оперативная память: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     AddPowerSupply(x,y);
     Writeln('Блок Питания: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     AddHdd(x,y);
     Writeln('Жесткий диск: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     Writeln('-------------------------------------');
     Writeln('Итого: ' + IntToStr(RecModel.FTotal));
     Writeln('-------------------------------------');

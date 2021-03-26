@@ -22,9 +22,10 @@ type
     procedure AddBody(Price: integer; Model : string); virtual; abstract;
     procedure AddPowerSupply(Price: integer; Model : string); virtual; abstract;
     procedure AddHdd(Price: integer; Model : string); virtual; abstract;
-  public
- // procedure ReadFromFile(APath: string);
     procedure WriteToFile();
+    procedure WriteToNoType();
+  public
+//    procedure ReadFromFile();
     procedure assembly;
     constructor Create();
     Destructor Destroy();
@@ -80,6 +81,7 @@ procedure TMarket.assembly;
     Writeln('Материнская плата: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
     WriteToFile;
+    WriteToNoType;
     AddCPU(x,y);
     Writeln('Процессор: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
@@ -111,6 +113,15 @@ begin
 
 end;
 
+//procedure TMarket.ReadFromFile;
+//var
+//  TextRead : TextFile;
+//begin
+//AssignFile(TextRead,'C:\distr\TextFile.txt');
+//Reset(TextRead,'C:\distr\TextFile.txt');
+//Read(TextRead);
+//end;
+
 procedure TMarket.WriteToFile();
 var
   TextRecord : TextFile;
@@ -125,6 +136,21 @@ begin
   Writeln(TextRecord,RecModel.FPrice);
 //  Writeln(TextRecord,RecModel.FTotal);
   Close(TextRecord);
+end;
+
+procedure TMarket.WriteToNoType;
+var
+  NoType : File;
+begin
+  AssignFile(NoType,'C:\distr\NoTypeFile');
+  if Not FileExists('C:\distr\NoTypeFile') then
+    begin
+    Rewrite(NoType);
+    end;
+  Reset(NoType);
+  BlockWrite(NoType,RecModel.FModel, 2);
+  BlockWrite(NoType,RecModel.FPrice, 2);
+  Close(NoType);
 end;
 
 { TAsus }
