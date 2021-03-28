@@ -10,13 +10,13 @@ type
     FPrice : integer;
     FModel : string;
     FTotal :integer;
+    function AsBytes : TBytes;
+    procedure SetBytes(buf: TBytes);
   end;
 
   TMarket = class abstract
   private
     RecModel :TModel;
-    var
-    TTTotal :integer;
   protected
     procedure AddMotherboard(Price: integer; Model : string); virtual; abstract;
     procedure AddCPU(Price: integer; Model : string); virtual; abstract;
@@ -24,9 +24,11 @@ type
     procedure AddBody(Price: integer; Model : string); virtual; abstract;
     procedure AddPowerSupply(Price: integer; Model : string); virtual; abstract;
     procedure AddHdd(Price: integer; Model : string); virtual; abstract;
-  public
- // procedure ReadFromFile(APath: string);
     procedure WriteToFile();
+    procedure WriteToNoType();
+  public
+    procedure ReadFromFile();
+    procedure ReadFromNoType();
     procedure assembly;
     constructor Create();
     Destructor Destroy();
@@ -81,25 +83,26 @@ procedure TMarket.assembly;
     AddMotherboard(x,y);
     Writeln('Материнская плата: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
+    WriteToNoType;
     AddCPU(x,y);
     Writeln('Процессор: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     AddRAM(x,y);
     Writeln('Оперативная память: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     AddPowerSupply(x,y);
     Writeln('Блок Питания: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     AddHdd(x,y);
     Writeln('Жесткий диск: ' + RecModel.FModel);
     Writeln('Цена:' + IntToStr(RecModel.FPrice));
-//    WriteToFile;
+    WriteToFile;
     Writeln('-------------------------------------');
-    Writeln('Итого: ' + IntToStr(TTTotal));
+    Writeln('Итого: ' + IntToStr(RecModel.FTotal));
     Writeln('-------------------------------------');
   end;
 
@@ -113,6 +116,40 @@ begin
 
 end;
 
+procedure TMarket.ReadFromFile;
+var
+  TextRead : TextFile;
+  i, sizeOfFile: integer;
+  str: string;
+begin
+  AssignFile(TextRead,'C:\distr\TextFile.txt');
+  Reset(TextRead);
+  SizeOfFile := FileSize(TextRead);
+
+  while not eof(TextRead) do
+  begin
+    Readln(TextRead, str);
+    WriteLn(str);
+  end;
+  Close(TextRead)
+end;
+
+procedure TMarket.ReadFromNoType;
+var
+  NoTypeRead : file;
+  Buf: TBytes;
+  num: integer;
+  begin
+    AssignFile(NoTypeRead,'C:\distr\NoTypeFile');
+    FileMode := fmOpenRead;
+    Reset(NoTypeRead, 1);
+    SetLength(Buf,FileSize(NoTypeRead));
+    BlockRead(NoTypeRead,Buf[0],Length(Buf),num);
+    CloseFile(NoTypeRead);
+    Writeln(TEncoding.UTF8.GetString(Buf));
+  end;
+
+
 procedure TMarket.WriteToFile();
 var
   TextRecord : TextFile;
@@ -125,8 +162,29 @@ begin
   Append(TextRecord);
   Writeln(TextRecord,RecModel.FModel);
   Writeln(TextRecord,RecModel.FPrice);
-//  Writeln(TextRecord,RecModel.FTotal);
+  Writeln(TextRecord,RecModel.FTotal);
   Close(TextRecord);
+end;
+
+procedure TMarket.WriteToNoType;
+var
+  NoType : File;
+  Buf: array[1..255] of byte;
+  num: integer;
+  recSize: integer;
+  fs: integer;
+  sbuf: TBytes;
+begin
+  AssignFile(NoType,'C:\distr\NoTypeFile');
+  if Not FileExists('C:\distr\NoTypeFile') then
+    begin
+    Rewrite(NoType,1);
+    end;
+  Reset(NoType,1);
+  sbuf := TEncoding.UTF8.GetBytes(RecModel.FModel);
+  BlockWrite(NoType,sbuf[0],Length(sbuf));
+  //BlockWrite(NoType,Buf,num);
+  Close(NoType);
 end;
 
 { TAsus }
@@ -135,37 +193,41 @@ procedure TAsus.AddBody(Price: integer; Model: string);
 begin
   RecModel.FPrice := 3000;
   RecModel.FModel := 'InWin';
-  TTTotal := RecModel.FPrice + TTTotal;
 end;
 
 procedure TAsus.AddCPU(Price: integer; Model: string);
 begin
   RecModel.FPrice := 9000;
   RecModel.FModel := 'i5 - 3330';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TAsus.AddGraphicCard(Price: integer; Model: string);
 begin
   RecModel.FPrice := 15000;
   RecModel.FModel := 'GTX 1050';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TAsus.AddHdd(Price: integer; Model: string);
 begin
   RecModel.FPrice := 3000;
   RecModel.FModel := 'WD Blue ';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TAsus.AddMotherboard(Price: integer; Model: string);
 begin
   RecModel.FPrice := 1000;
   RecModel.FModel := 'Asus H81 MK';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TAsus.AddPowerSupply(Price: integer; Model: string);
 begin
   RecModel.FPrice := 3500;
   RecModel.FModel := 'PowerMan 500w';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TAsus.AddRAM(Price: integer; Model: string);
@@ -173,6 +235,7 @@ begin
   RecModel.FPrice := 6666;
   RecModel.FModel := 'Corsair 8GB';
   RecModel.FTotal := RecModel.FTotal + Price;
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 { TZalman }
@@ -181,42 +244,49 @@ procedure TZalman.AddBody(Price: integer; Model: string);
 begin
   RecModel.FPrice := 3500;
   RecModel.FModel := 'Zalman X55';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TZalman.AddCPU(Price: integer; Model: string);
 begin
   RecModel.FPrice := 9999;
   RecModel.FModel := 'Ryzen 5 - 2700';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TZalman.AddHdd(Price: integer; Model: string);
 begin
   RecModel.FPrice := 4500;
   RecModel.FModel := 'Segate Baracuda';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TZalman.AddMotherboard(Price: integer; Model: string);
 begin
   RecModel.FPrice := 6890;
   RecModel.FModel := 'Gygabite Ax 570';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TZalman.AddPowerSupply(Price: integer; Model: string);
 begin
   RecModel.FPrice := 4400;
   RecModel.FModel := 'CoolerMaste vx 650w';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TZalman.AddRAM(Price: integer; Model: string);
 begin
   RecModel.FPrice := 5500;
   RecModel.FModel := 'Crucial 8GB';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 procedure TZalman.AddSsd(Price: integer; Model: string);
 begin
   RecModel.FPrice := 5505;
   RecModel.FModel := 'Samsung EVO';
+  RecModel.FTotal := RecModel.FPrice + RecModel.FTotal;
 end;
 
 { THp }
@@ -273,6 +343,47 @@ procedure THp.AddSsd(Price: integer; Model: string);
 begin
   RecModel.FPrice := 25000;
   RecModel.FModel := 'Intel Inside';
+end;
+
+{ TModel }
+
+function TModel.AsBytes: TBytes;
+var
+  Counter, size: integer;
+begin
+  SetLength(Result, SizeOf(FPrice) + Length(FModel) + SizeOf(FTotal));
+
+  Counter := 0;
+
+  Move(Fprice,Result[Counter],SizeOf(FPrice));
+  inc(Counter,SizeOf(FPrice));
+
+  size := Length(FModel);
+  Move(size,Result[Counter],SizeOf(integer));
+  inc(Counter,SizeOf(integer));
+
+  Move(FModel[1],Result[Counter],Length(FModel));
+  inc(Counter,Length(FModel));
+
+  Move(FTotal,Result[Counter],SizeOf(FTotal));
+end;
+
+procedure TModel.SetBytes(buf: TBytes);
+var
+  Counter, size: integer;
+begin
+  Counter := 0;
+  Move(buf[Counter],FPrice, SizeOF(FPrice));
+  inc(Counter,SizeOf(FPrice));
+
+  Move(buf[Counter],size, SizeOF(integer));
+  inc(Counter,SizeOf(integer));
+
+  SetLength(FModel, size);
+  Move(buf[Counter],FModel[1], size);
+  inc(Counter,SizeOf(integer));
+
+  Move(buf[Counter],FTotal, SizeOF(FTotal));
 end;
 
 end.

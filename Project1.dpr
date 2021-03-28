@@ -15,10 +15,11 @@ begin
 
   try
     assm:= TAsus.Create;
-    assm.assembly;
-    assm:= TZalman.Create;
-    assm.assembly;
-    assm.ReadFromFile;
+ //   assm.assembly;
+//    assm:= TZalman.Create;
+//    assm.assembly;
+ //   assm.ReadFromFile;
+    assm.ReadFromNoType;
 //    assm:= THp.Create;
 //    assm.assembly;
     readln;
